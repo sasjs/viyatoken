@@ -1,4 +1,4 @@
-# SAS Rap
+# Viya Token Generator
 
 ## TL;DR
 
