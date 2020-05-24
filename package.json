@@ -1,0 +1,24 @@
+{
+  "name": "viyatoken",
+  "version": "1.0.0",
+  "description": "A SASjs App for generating the Viya Client and Token",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/macropeople/viyatoken.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/macropeople/viyatoken/issues"
+  },
+  "homepage": "https://gitlab.com/macropeople/viyatoken#readme",
+  "dependencies": {
+    "macrocore": "^5.17.0",
+    "sasjs": "^2.3.0"
+  }
+}

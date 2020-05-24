@@ -1,0 +1,17 @@
+{
+ "cmnServices": [
+  "services/common",
+  "services/admin"
+ ],
+ "useMacroCore": true,
+ "targets": [
+  {
+   "name": "viya",
+   "serverType": "SASVIYA",
+   "appLoc": "/Public/app/viyatoken",
+   "deployScript": "myviyadeploy.sas",
+   "streamWeb": true,
+   "streamWebFolder": "webv",
+   "webSourcePath": "src"
+  }]
+}

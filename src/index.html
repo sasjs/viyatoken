@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      function initSasJs() {
+        sasJs = new SASjs.default({
+          appLoc: "/Public/app/viyatoken",
+          serverType: "SASVIYA",
+          debug: false,
+        });
+      }
+    </script>
+
+    <script src="../node_modules/sasjs/index.js"></script>
+    <script src="scripts.js"></script>
+
+    <title>ViyaToken</title>
+  </head>
+  <body onload="initSasJs()">
+    <h1>
+      SASjs Viya Token Generator
+    </h1>
+
+    <h4 class="secHide">JSON Format</h4>
+    <p class="secHide">Suitable for copy pasting into the <a href="https://sasjs.io">SASjs</a> Config file</p>
+    <p id="token-info" class="secHide"></p>
+    <h4 class="secHide">SAS Format</h4>
+    <p class="secHide">
+    Suitable for including in SAS Programs that use the <a href="https://github.com/macropeople/macrocore">MacroCore</a> library
+    </p>
+    <p id="token-info-macro" class="secHide"></p>
+    <button id="generate-token" onclick="generateToken()">Generate token</button>
+    
+    <div style="display: none;" class="login-form" id="login-form">
+      <input type="text" id="username" placeholder="Enter username" />
+      <input type="password" id="password" placeholder="Enter password" />
+
+      <button id="login" onclick="login()">Log in</button>
+    </div>
+
+    <style>
+        * {
+            font-family: "Roboto", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 30px;
+        }
+
+        button {
+            background-color: #3f51b5;
+            color: #ffffff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+
+            button:focus,
+            input:focus {
+            outline: none;
+        }
+
+        button:hover {
+            box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-form input {
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 20px;
+            border: 1px solid #d9d9d9;
+            margin-top: 5px;
+        }
+
+        .secHide{
+          display:none
+        }
+
+        #token-info, #token-info-macro {
+            background: #f7f5f5;
+            padding: 20px;
+            border: 1px solid gainsboro;
+            align-self: flex-start;
+            white-space: pre;
+            /* white-space: pre-wrap;
+            word-break: break-word;
+            width: 95%; */
+        }
+
+        #token-info-macro {
+            margin-top: 20px;
+            /* word-break: break-all; */
+        }
+    </style>
+  </body>
+</html>
