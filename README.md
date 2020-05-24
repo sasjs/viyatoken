@@ -6,8 +6,8 @@ Run the code below in SASStudioV, and open the link in a browser, eg:  YOURSERVE
 
 
 ```
-filename sasjs url "https://sasjs.io/viyatoken.sas";
-%inc sasjs;
+filename vt url "https://sasjs.io/viyatoken.sas";
+%inc vt;
 ```
 
 If you don't have internet access from your browser, just copy paste the code directly from https://sasjs.io/viyatoken.sas. 
