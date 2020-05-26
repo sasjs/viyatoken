@@ -80,7 +80,7 @@ function goToAuthPage() {
         .then(response => {
             let responseBody = response.split("<body>")[1].split("</body>")[0];
             let bodyElement = document.createElement("div");
-          bodyElement.innerHTML = responseBody;
+            bodyElement.innerHTML = responseBody;
 
             authcode = bodyElement.querySelector('.infobox h4').innerText;
 
