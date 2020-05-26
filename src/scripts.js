@@ -97,7 +97,12 @@ function goToAuthPage() {
                 const generateTokenButton = document.querySelector('#generate-token');
                 generateTokenButton.style.display = 'none';
 
-                let tokenInfo = JSON.stringify(res.tokeninfo[0], null, 2);
+                let tokenInfo = JSON.stringify(res.tokeninfo[0], null, 2)
+                  .replace("ACCESS_TOKEN", "access_token")
+                  .replace("CLIENT", "client")
+                  .replace("SECRET", "secret")
+                  .replace("AUTHCODE", "authcode")
+                  .replace("REFRESH_TOKEN", "refresh_token");
 
                 let access_token_macro = chunkString(res.tokeninfo[0].ACCESS_TOKEN, 240).join('%trim(\r\n)');
                 let refresh_token_macro = chunkString(res.tokeninfo[0].REFRESH_TOKEN, 240).join('%trim(\r\n)');
