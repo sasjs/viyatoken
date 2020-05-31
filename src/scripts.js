@@ -104,6 +104,8 @@ function goToAuthPage() {
                   .replace("AUTHCODE", "authcode")
                   .replace("REFRESH_TOKEN", "refresh_token");
 
+                let tokenInfoEnv = `access_token=${res.tokenInfo[0].ACCESS_TOKEN}\nclient=${res.tokenInfo[0].CLIENT}\nsecret=${res.tokenInfo[0].SECRET}\nauthcode=${res.tokenInfo[0].AUTHCODE}\nrefresh_token=${res.tokenInfo[0].REFRESH_TOKEN}`;
+
                 let access_token_macro = chunkString(res.tokeninfo[0].ACCESS_TOKEN, 240).join('%trim(\r\n)');
                 let refresh_token_macro = chunkString(res.tokeninfo[0].REFRESH_TOKEN, 240).join('%trim(\r\n)');
 
@@ -111,11 +113,13 @@ function goToAuthPage() {
 
                 let tokenInfoP = document.querySelector('#token-info');
                 let tokenInfoMacroP = document.querySelector('#token-info-macro');
+                let tokenInfoEnvP = document.querySelector('#token-info-env');
 
                 tokenInfoP.innerHTML = tokenInfo;
                 tokenInfoP.style = '';
 
                 tokenInfoMacroP.innerHTML = tokenInfoMacro;
+                tokenInfoEnvP.innerHTML = tokenInfoEnv;
                 let divs=document.getElementsByClassName('secHide')
                 function _removeClasses() {
                   divs[0].classList.remove('secHide')
@@ -129,4 +133,12 @@ function goToAuthPage() {
 
 function chunkString(str, length) {
     return str.match(new RegExp('.{1,' + length + '}', 'g'));
+}
+
+function refreshPage() {
+  const origin = window.location.origin
+    ? window.location.origin
+    : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
+
+  window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
 }

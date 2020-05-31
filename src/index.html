@@ -23,10 +23,14 @@
     <title>ViyaToken</title>
   </head>
   <body onload="initSasJs()">
+    <button id="refresh" onclick="refreshPage()">Refresh</button>
     <h1>
       SASjs Viya Token Generator
     </h1>
 
+    <h4 class="secHide">.env Format</h4>
+    <p class="secHide">Suitable for copy pasting into a .env file</p>
+    <p id="token-info-env" class="secHide"></p>
     <h4 class="secHide">JSON Format</h4>
     <p class="secHide">Suitable for copy pasting into the <a href="https://sasjs.io">SASjs</a> Config file</p>
     <p id="token-info" class="secHide"></p>
