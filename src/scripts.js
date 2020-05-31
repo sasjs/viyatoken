@@ -140,5 +140,5 @@ function refreshPage() {
     ? window.location.origin
     : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
 
-  window.location = `${origin}/SASJobExecution?_PROGRAM=/Public/app/sasjs/viyatoken/clickme`;
+  window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
 }
