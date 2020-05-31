@@ -134,3 +134,11 @@ function goToAuthPage() {
 function chunkString(str, length) {
     return str.match(new RegExp('.{1,' + length + '}', 'g'));
 }
+
+function refreshPage() {
+  const origin = window.location.origin
+    ? window.location.origin
+    : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
+
+  window.location = `${origin}/SASJobExecution?_PROGRAM=/Public/app/sasjs/viyatoken/clickme`;
+}
