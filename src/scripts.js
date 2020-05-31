@@ -104,7 +104,7 @@ function goToAuthPage() {
                   .replace("AUTHCODE", "authcode")
                   .replace("REFRESH_TOKEN", "refresh_token");
 
-                let tokenInfoEnv = `access_token=${res.tokenInfo[0].ACCESS_TOKEN}\nclient=${res.tokenInfo[0].CLIENT}\nsecret=${res.tokenInfo[0].SECRET}\nauthcode=${res.tokenInfo[0].AUTHCODE}\nrefresh_token=${res.tokenInfo[0].REFRESH_TOKEN}`;
+                let tokenInfoEnv = `access_token=${res.tokeninfo[0].ACCESS_TOKEN}\nclient=${res.tokeninfo[0].CLIENT}\nsecret=${res.tokeninfo[0].SECRET}\nrefresh_token=${res.tokeninfo[0].REFRESH_TOKEN}`;
 
                 let access_token_macro = chunkString(res.tokeninfo[0].ACCESS_TOKEN, 240).join('%trim(\r\n)');
                 let refresh_token_macro = chunkString(res.tokeninfo[0].REFRESH_TOKEN, 240).join('%trim(\r\n)');
@@ -141,4 +141,14 @@ function refreshPage() {
     : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
 
   window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
+}
+
+function copyText(id) {
+  const element = document.getElementById(id);
+  const range = document.createRange();
+  window.getSelection().removeAllRanges();
+  range.selectNode(element);
+  window.getSelection().addRange(range);
+  document.execCommand("copy");
+  alert("Your config has been copied to the clipboard.");
 }
