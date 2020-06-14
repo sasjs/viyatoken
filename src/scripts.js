@@ -59,11 +59,19 @@ function login() {
 function getClientSettings() {
   let name = document.querySelector('#name').value;
 
-  let authorization_code = document.querySelector('#authorized_grant_types-authorization_code').checked ? 'authorization_code' : "";
-  let implicit = document.querySelector('#authorized_grant_types-implicit').checked ? 'implicit' : "";
-  let client_credentials = document.querySelector('#authorized_grant_types-client_credentials').checked ? 'client_credentials' : "";
-  let authorization_grant_types = `${authorization_code ? authorization_code : ''} ${implicit ? implicit : ''} ${client_credentials ? client_credentials : ''}`;
-  if (!authorization_code && !implicit && !client_credentials) authorization_grant_types = "";
+  
+  let authorization_grant_types = "";
+  let auth_grant_type_inputs = document.querySelectorAll('.authorized_grant_type_input');
+  
+  for (let auth_grant_type_input of auth_grant_type_inputs) {
+    if (auth_grant_type_input.checked) {
+      if (authorization_grant_types.length > 0) {
+        authorization_grant_types += ' ';
+      }
+      
+      authorization_grant_types += auth_grant_type_input.value;
+    }
+  }
 
   let scope = document.querySelector('#scope').value;
   let access_token_validity = document.querySelector('#access_token_validity').value;
@@ -110,11 +118,12 @@ async function generateToken() {
     
     let sasjsConfig = await sasJs.getSasjsConfig();
 
+    let data = {'clientsettings': [clientSettings]};
+
     if (sasjsConfig.debug) {
       console.log('Client settings', clientSettings);
+      console.log('Data to sasjs', data);
     }
-
-    let data = {'clientsettings': [clientSettings]};
 
     sasJs.request("admin/getnewclient", data, null, (loginRequired) => {
         if (loginRequired) {

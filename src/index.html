@@ -20,7 +20,7 @@
         appInit();
       }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sasjs@2.12.3/index.js"></script>
+    
     <script src="../node_modules/sasjs/index.js"></script>
     <script src="scripts.js"></script>
 
@@ -62,22 +62,22 @@
       <p class="input-description">The list of grant types that can be used to obtain a token with this client.</p>
       <div class="input-container">
         <div>
-          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" checked>
+          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" class="authorized_grant_type_input" checked>
           <label for="authorized_grant_types-authorization_code"> authorization_code </label><br>
         </div>
 
         <div>
-          <input type="checkbox" id="authorized_grant_types-implicit" value="implicit">
+          <input type="checkbox" id="authorized_grant_types-implicit" value="implicit" class="authorized_grant_type_input">
           <label for="authorized_grant_types-implicit"> implicit</label><br>
         </div>
 
         <div>
-          <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials">
+          <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials" class="authorized_grant_type_input">
           <label for="authorized_grant_types-client_credentials"> client_credentials </label><br>
         </div>
 
         <div>
-          <input type="checkbox" id="authorized_grant_types-refresh_token" value="refresh_token" checked>
+          <input type="checkbox" id="authorized_grant_types-refresh_token" value="refresh_token" class="authorized_grant_type_input" checked>
           <label for="authorized_grant_types-refresh_token"> refresh_token </label><br>
         </div>
         
