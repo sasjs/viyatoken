@@ -86,7 +86,7 @@ function getClientSettings() {
 
   return {
     name: name,
-    authorization_grant_types: authorization_grant_types,
+    authorized_grant_types: authorization_grant_types,
     scope: scope,
     access_token_validity: access_token_validity,
     refresh_token_validity: refresh_token_validity,
@@ -106,14 +106,14 @@ function generateToken() {
 
     let data = {'clientsettings': [clientSettings]};
 
-    sasJs.request("admin/getapptoken", data, null, (loginRequired) => {
+    sasJs.request("admin/getnewclient", data, null, (loginRequired) => {
         if (loginRequired) {
             const loginForm = document.querySelector("#login-form");
             loginForm.style.display = '';
         }
       }).then(res => {
-        client = res.clientinfo[0].CLIENT;
-        secret = res.clientinfo[0].SECRET;
+        client = res.clientinfo[0].CLIENT_ID;
+        secret = res.clientinfo[0].ClIENT_SECRET;
 
         clientSettingsContainer.style.display = 'none';
 
@@ -176,7 +176,7 @@ function goToAuthPage() {
                     }
                 ]
             }
-            sasJs.request('common/getrefreshtoken', data).then(res => {
+            sasJs.request('common/tokenauth', data).then(res => {
                 const generateTokenButton = document.querySelector('#generate-token');
                 generateTokenButton.style.display = 'none';
 
