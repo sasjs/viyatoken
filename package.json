@@ -18,7 +18,7 @@
   },
   "homepage": "https://gitlab.com/macropeople/viyatoken#readme",
   "dependencies": {
-    "macrocore": "^5.17.1",
+    "macrocore": "^7.1.2",
     "sasjs": "^2.3.0"
   }
 }
