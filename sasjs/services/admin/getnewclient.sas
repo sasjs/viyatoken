@@ -40,6 +40,6 @@ run;
 
 %webout(OPEN)
 %webout(OBJ,clientinfo)
-%webout(ARR,inputjson)
+%webout(OBJ,inputjson)
 %webout(CLOSE)
 
