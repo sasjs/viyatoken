@@ -37,6 +37,10 @@ function appInit() {
   });
 }
 
+function onDebugChange(event) {
+  sasJs.setDebugState(event.target.checked);
+}
+
 function login() {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
@@ -96,13 +100,19 @@ function getClientSettings() {
   }
 }
 
-function generateToken() {
+async function generateToken() {
     const generateTokenButton = document.querySelector('#generate-token');
     const clientSettingsContainer = document.querySelector('.client-settings');
     generateTokenButton.style = 'opacity: 0.3; pointer-events: none;';
     generateTokenButton.innerText = 'Generating...';
 
     let clientSettings = getClientSettings();
+    
+    let sasjsConfig = await sasJs.getSasjsConfig();
+
+    if (sasjsConfig.debug) {
+      console.log('Client settings', clientSettings);
+    }
 
     let data = {'clientsettings': [clientSettings]};
 
@@ -115,10 +125,23 @@ function generateToken() {
         client = res.clientinfo[0].CLIENT_ID;
         secret = res.clientinfo[0].ClIENT_SECRET;
 
-        clientSettingsContainer.style.display = 'none';
-
-        goToAuthPage();
+        if (!res.error) {
+          clientSettingsContainer.style.display = 'none';
+          goToAuthPage();
+        } else {
+          resetGenerateScreen();
+        }
+    }, err => {
+      resetGenerateScreen();
     });
+}
+
+function resetGenerateScreen() {
+  const generateTokenButton = document.querySelector('#generate-token');
+  const clientSettingsContainer = document.querySelector('.client-settings');
+  generateTokenButton.style = '';
+  generateTokenButton.innerText = 'Generate token';
+  clientSettingsContainer.style.display = '';
 }
 
 function goToAuthPage() {
@@ -135,7 +158,12 @@ function goToAuthPage() {
         bodyElement.innerHTML = responseBody;
 
         let form = bodyElement.querySelector("#application_authorization");
-    
+        
+        if (!form) {
+          resetGenerateScreen();
+          return; 
+        }
+
         let inputs = form.querySelectorAll("input");
     
         for (let input of inputs) {

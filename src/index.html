@@ -20,7 +20,7 @@
         appInit();
       }
     </script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sasjs@2.12.3/index.js"></script>
     <script src="../node_modules/sasjs/index.js"></script>
     <script src="scripts.js"></script>
 
@@ -31,6 +31,11 @@
     <h1>
       SASjs Viya Token Generator
     </h1>
+
+    <div style="position: absolute; top: 20px; right: 30px;">
+      <input onchange="onDebugChange(event)" type="checkbox" id="debug_switch">
+      <label for="debug_switch"> Debug mode</label><br>
+    </div>
 
     <h4 class="secHide">.env Format <span class="copy-icon" onclick="copyText('token-info-env')"></span></h4>
     <p class="secHide">Suitable for copy pasting into a .env file</p>
