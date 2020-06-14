@@ -3,6 +3,9 @@
   "services/common",
   "services/admin"
  ],
+ "cmnMacros": [
+  "macros"
+],
  "useMacroCore": true,
  "targets": [
   {
