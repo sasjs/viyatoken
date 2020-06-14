@@ -14,9 +14,13 @@
           serverType: "SASVIYA",
           debug: false,
         });
+
+        const groups = [];
+       
+        appInit();
       }
     </script>
-
+    
     <script src="../node_modules/sasjs/index.js"></script>
     <script src="scripts.js"></script>
 
@@ -39,7 +43,78 @@
     Suitable for including in SAS Programs that use the <a href="https://github.com/macropeople/macrocore">MacroCore</a> library
     </p>
     <p id="token-info-macro" class="secHide"></p>
-    <button id="generate-token" onclick="generateToken()">Generate token</button>
+
+    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    
+    <div class="client-settings" style="display: none;">
+      <div class="input-container">
+        <label class="title" for="name">Name</label>
+        <p class="input-description">A human readable name for the client</p>
+        <input type="text" id="name"/>
+      </div>
+
+      <p class="title">Authorized grant types</p>
+      <p class="input-description">The list of grant types that can be used to obtain a token with this client.</p>
+      <div class="input-container">
+        <div>
+          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" checked>
+          <label for="authorized_grant_types-authorization_code"> Authorization code </label><br>
+        </div>
+
+        <div>
+          <input type="checkbox" id="authorized_grant_types-implicit" value="implicit">
+          <label for="authorized_grant_types-implicit"> Implicit</label><br>
+        </div>
+
+        <div>
+          <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials">
+          <label for="authorized_grant_types-client_credentials"> Client credentials </label><br>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <label class="title" for="scope">Scope</label>
+        <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
+        <input type="text" id="scope" value="openid"/>
+      </div>
+
+      <div class="input-container">
+        <label class="title" for="access_token_validity">Access token validity</label>
+        <p class="input-description">By default, an access token is valid for 12 hours (or 43200 seconds). Set this using an integer value for time in seconds.</p>
+        <input type="number" id="access_token_validity"value="43200"/>
+      </div>
+
+      <div class="input-container">
+        <label class="title" for="refresh_token_validity">Refresh token_validity</label>
+        <p class="input-description">Refresh Token validity. Set an integer value for time in seconds. Default is 30 days (2592000 seconds).</p>
+        <input type="number" id="refresh_token_validity" value="2592000"/>
+      </div>
+
+      <p class="title">Required user groups</p>
+      <p class="input-description">A list of group names. If a user does not belong to all the required groups, the user will not be authenticated and no tokens are issued to this client for that user. If this field is not specified, authentication and token issuance proceeds normally.</p>
+      <div id="requiredUserGroupsContainer" class="input-container">
+        <p style="margin: 0; font-style: italic;" id="nogroups">No gorups available</p>
+      </div>
+
+      <hr/>
+      
+      <div class="input-container">
+        <p class="input-description">Scopes that do not require user approval. Boolean values true and false apply to all scopes. Otherwise, a space-separated list can be provided.</p>
+        <div>
+          <input type="checkbox" id="autoapprove" value="autoapprove" checked>
+          <label for="autoapprove"> Auto approve </label><br>
+        </div>
+
+        <p class="input-description">If true, access tokens issued to this client will be associated with an HTTP session and revoked upon logout or time-out.</p>
+        <div>
+          <input type="checkbox" id="use_session" value="use_session" checked>
+          <label for="use_session"> Use session </label><br>
+        </div>
+      </div>
+
+      <button id="generate-token" onclick="generateToken()">Generate token</button>
+    </div>
+
     <div style="display: none;" class="login-form" id="login-form">
       <input type="text" id="username" placeholder="Enter username" />
       <input type="password" id="password" placeholder="Enter password" />
@@ -60,6 +135,43 @@
             min-height: 100vh;
             margin: 0;
             padding-bottom: 30px;
+        }
+
+        .lds-ring {
+          display: inline-block;
+          position: absolute;
+          width: 80px;
+          height: 80px;
+          margin-top: 70px;
+        }
+        .lds-ring div {
+          box-sizing: border-box;
+          display: block;
+          position: absolute;
+          width: 64px;
+          height: 64px;
+          margin: 8px;
+          border: 8px solid #3f51b5;
+          border-radius: 50%;
+          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+          border-color: #3f51b5 transparent transparent transparent;
+        }
+        .lds-ring div:nth-child(1) {
+          animation-delay: -0.45s;
+        }
+        .lds-ring div:nth-child(2) {
+          animation-delay: -0.3s;
+        }
+        .lds-ring div:nth-child(3) {
+          animation-delay: -0.15s;
+        }
+        @keyframes lds-ring {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
         }
 
         button {
@@ -85,14 +197,22 @@
         .login-form {
             display: flex;
             flex-direction: column;
-        }
 
-        .login-form input {
+            position: relative;
+            background: white;
+        }
+        
+        input {
             padding: 10px;
             border-radius: 5px;
             font-size: 20px;
             border: 1px solid #d9d9d9;
             margin-top: 5px;
+        }
+
+        .input-container {
+          display: flex;
+          flex-direction: column;
         }
 
         .secHide{
@@ -117,6 +237,16 @@
             /* word-break: break-all; */
         }
 
+        .client-settings {
+          display: flex;
+          flex-direction: column;
+          padding: 0 150px;
+        }
+
+        .input-container {
+          margin-bottom: 10px;
+        }
+
         .copy-icon {
           cursor: pointer;
           width: 20px;
@@ -124,6 +254,31 @@
           display: inline-block;
           background-size: contain;
           background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjIgNnYxNmgtMTZ2LTE2aDE2em0yLTJoLTIwdjIwaDIwdi0yMHptLTI0IDE3di0yMWgyMXYyaC0xOXYxOWgtMnoiLz48L3N2Zz4=");
+        }
+
+        .row {
+          display: flex;
+          flex-direction: row !important;
+        }
+
+        hr {
+          border: 0;
+          border-bottom: 1px solid #d1d1d1;
+          width: 100%;
+        }
+
+        #requiredUserGroupsContainer {
+          max-height: 200px;
+          overflow: auto;
+        }
+
+        .input-description {
+          font-style: italic;
+          font-size: 14px;
+        }
+
+        .title {
+          font-weight: bold;
         }
     </style>
   </body>

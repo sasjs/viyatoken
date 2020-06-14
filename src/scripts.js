@@ -4,6 +4,39 @@ let client = "";
 let secret = "";
 let authcode = "";
 
+function appInit() {
+  sasJs.request('common/appinit', null, null, (loginRequired) => {
+    if (loginRequired) {
+        const loginForm = document.querySelector("#login-form");
+        loginForm.style.display = '';
+    }
+  }).then(res => {
+    if (res.groups) {
+      groups = res.groups;
+
+      if (res.groups.length > 0) {
+        document.querySelector('#nogroups').style.display = 'none';
+        let requiredUserGroupsContainer = document.querySelector('#requiredUserGroupsContainer');
+
+        for (let group of groups) {
+          let optionWrapper = document.createElement('div');
+          let optionHtml = `
+            <input type="checkbox" id="required_user_groups-${group.ID}" value="${group.ID}" class="user-group-input">
+            <label for="required_user_groups-${group.ID}"> ${group.NAME} </label><br>
+          `;
+
+          optionWrapper.innerHTML = optionHtml;
+
+          requiredUserGroupsContainer.append(optionWrapper);
+        }
+
+        document.querySelector('.lds-ring').style.display = 'none';
+        document.querySelector('.client-settings').style.display = '';
+      }
+    }
+  });
+}
+
 function login() {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
@@ -19,20 +52,70 @@ function login() {
   });
 }
 
+function getClientSettings() {
+  let name = document.querySelector('#name').value;
+
+  let authorization_code = document.querySelector('#authorized_grant_types-authorization_code').checked ? 'authorization_code' : "";
+  let implicit = document.querySelector('#authorized_grant_types-implicit').checked ? 'implicit' : "";
+  let client_credentials = document.querySelector('#authorized_grant_types-client_credentials').checked ? 'client_credentials' : "";
+  let authorization_grant_types = `${authorization_code ? authorization_code : ''} ${implicit ? implicit : ''} ${client_credentials ? client_credentials : ''}`;
+  if (!authorization_code && !implicit && !client_credentials) authorization_grant_types = "";
+
+  let scope = document.querySelector('#scope').value;
+  let access_token_validity = document.querySelector('#access_token_validity').value;
+  access_token_validity = access_token_validity.length > 0 ? parseInt(access_token_validity) : null;
+
+  let refresh_token_validity = document.querySelector('#refresh_token_validity').value;
+  refresh_token_validity = refresh_token_validity.length > 0 ? parseInt(refresh_token_validity) : null;
+
+  let autoapprove = document.querySelector('#autoapprove').checked ? 'true' : 'false';
+  let usesession = document.querySelector('#use_session').checked ? 'true' : 'false';
+
+  let required_user_groups = "";
+  let user_group_inputs = document.querySelectorAll('.user-group-input');
+
+  for (let group_input of user_group_inputs) {
+    if (group_input.checked) {
+      if (required_user_groups.length > 0) {
+        required_user_groups += ' ';
+      }
+
+      required_user_groups += group_input.value;
+    }
+  }
+
+  return {
+    name: name,
+    authorization_grant_types: authorization_grant_types,
+    scope: scope,
+    access_token_validity: access_token_validity,
+    refresh_token_validity: refresh_token_validity,
+    required_user_groups: required_user_groups,
+    autoapprove: autoapprove,
+    use_session: usesession
+  }
+}
+
 function generateToken() {
     const generateTokenButton = document.querySelector('#generate-token');
+    const clientSettingsContainer = document.querySelector('.client-settings');
     generateTokenButton.style = 'opacity: 0.3; pointer-events: none;';
     generateTokenButton.innerText = 'Generating...';
 
-    sasJs.request("admin/getapptoken", null, null, (loginRequired) => {
+    let clientSettings = getClientSettings();
+
+    let data = {'clientsettings': [clientSettings]};
+
+    sasJs.request("admin/getapptoken", data, null, (loginRequired) => {
         if (loginRequired) {
             const loginForm = document.querySelector("#login-form");
             loginForm.style.display = '';
-            generateTokenButton.style.display = 'none';
         }
       }).then(res => {
         client = res.clientinfo[0].CLIENT;
         secret = res.clientinfo[0].SECRET;
+
+        clientSettingsContainer.style.display = 'none';
 
         goToAuthPage();
     });
@@ -136,11 +219,15 @@ function chunkString(str, length) {
 }
 
 function refreshPage() {
-  const origin = window.location.origin
-    ? window.location.origin
-    : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
+  if (location.href.includes('/files/files')) {
+    const origin = window.location.origin
+      ? window.location.origin
+      : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
+  
+    window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
+  }
 
-  window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
+  window.location.reload();
 }
 
 function copyText(id) {
