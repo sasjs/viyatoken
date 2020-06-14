@@ -48,14 +48,16 @@
     
     <div class="client-settings" style="display: none;">
       <div class="input-container">
-        <label for="name">Name</label>
+        <label class="title" for="name">Name</label>
+        <p class="input-description">A human readable name for the client</p>
         <input type="text" id="name"/>
       </div>
 
-      <p>Authorized grant types</p>
+      <p class="title">Authorized grant types</p>
+      <p class="input-description">The list of grant types that can be used to obtain a token with this client.</p>
       <div class="input-container">
         <div>
-          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code">
+          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" checked>
           <label for="authorized_grant_types-authorization_code"> Authorization code </label><br>
         </div>
 
@@ -71,21 +73,25 @@
       </div>
 
       <div class="input-container">
-        <label for="scope">Scope</label>
+        <label class="title" for="scope">Scope</label>
+        <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
         <input type="text" id="scope" value="openid"/>
       </div>
 
       <div class="input-container">
-        <label for="access_token_validity">Access token validity</label>
+        <label class="title" for="access_token_validity">Access token validity</label>
+        <p class="input-description">By default, an access token is valid for 12 hours (or 43200 seconds). Set this using an integer value for time in seconds.</p>
         <input type="number" id="access_token_validity"value="43200"/>
       </div>
 
       <div class="input-container">
-        <label for="refresh_token_validity">Refresh token_validity</label>
+        <label class="title" for="refresh_token_validity">Refresh token_validity</label>
+        <p class="input-description">Refresh Token validity. Set an integer value for time in seconds. Default is 30 days (2592000 seconds).</p>
         <input type="number" id="refresh_token_validity" value="2592000"/>
       </div>
 
-      <p>Required user groups</p>
+      <p class="title">Required user groups</p>
+      <p class="input-description">A list of group names. If a user does not belong to all the required groups, the user will not be authenticated and no tokens are issued to this client for that user. If this field is not specified, authentication and token issuance proceeds normally.</p>
       <div id="requiredUserGroupsContainer" class="input-container">
         <p style="margin: 0; font-style: italic;" id="nogroups">No gorups available</p>
       </div>
@@ -93,11 +99,13 @@
       <hr/>
       
       <div class="input-container">
+        <p class="input-description">Scopes that do not require user approval. Boolean values true and false apply to all scopes. Otherwise, a space-separated list can be provided.</p>
         <div>
           <input type="checkbox" id="autoapprove" value="autoapprove" checked>
           <label for="autoapprove"> Auto approve </label><br>
         </div>
 
+        <p class="input-description">If true, access tokens issued to this client will be associated with an HTTP session and revoked upon logout or time-out.</p>
         <div>
           <input type="checkbox" id="use_session" value="use_session" checked>
           <label for="use_session"> Use session </label><br>
@@ -232,6 +240,7 @@
         .client-settings {
           display: flex;
           flex-direction: column;
+          padding: 0 150px;
         }
 
         .input-container {
@@ -261,6 +270,15 @@
         #requiredUserGroupsContainer {
           max-height: 200px;
           overflow: auto;
+        }
+
+        .input-description {
+          font-style: italic;
+          font-size: 14px;
+        }
+
+        .title {
+          font-weight: bold;
         }
     </style>
   </body>

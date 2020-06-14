@@ -219,11 +219,15 @@ function chunkString(str, length) {
 }
 
 function refreshPage() {
-  const origin = window.location.origin
-    ? window.location.origin
-    : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
+  if (location.href.includes('/files/files')) {
+    const origin = window.location.origin
+      ? window.location.origin
+      : `${window.location.protocol}//${window.location.hostname}${(window.location.port ? ':' + window.location.port : '')}`;
+  
+    window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
+  }
 
-  window.location = `${origin}/SASJobExecution?_PROGRAM=${sasJs.appLoc}/clickme`;
+  window.location.reload();
 }
 
 function copyText(id) {
