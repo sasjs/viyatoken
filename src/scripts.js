@@ -132,7 +132,7 @@ async function generateToken() {
         }
       }).then(res => {
         client = res.clientinfo[0].CLIENT_ID;
-        secret = res.clientinfo[0].ClIENT_SECRET;
+        secret = res.clientinfo[0].CLIENT_SECRET;
 
         if (!res.error) {
           clientSettingsContainer.style.display = 'none';
