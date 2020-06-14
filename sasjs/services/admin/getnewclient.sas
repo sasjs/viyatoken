@@ -35,9 +35,11 @@ run;
   ,access_token_validity=%sysfunc(coalescec(&access_token_validity,DEFAULT))
   ,refresh_token_validity=%sysfunc(coalescec(&refresh_token_validity,DEFAULT))
   ,outds=clientinfo
+  ,outjson=inputjson
 )
 
 %webout(OPEN)
 %webout(OBJ,clientinfo)
+%webout(ARR,inputjson)
 %webout(CLOSE)
 
