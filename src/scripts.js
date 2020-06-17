@@ -21,7 +21,7 @@ function appInit() {
         for (let group of groups) {
           let optionWrapper = document.createElement('div');
           let optionHtml = `
-            <input type="checkbox" id="required_user_groups-${group.ID}" value="${group.ID}" class="user-group-input">
+            <input type="checkbox" id="required_user_groups-${group.ID}" value="${group.ID}" class="user-group-input" onclick=requiredUserGroupsOnClick(this)>
             <label for="required_user_groups-${group.ID}"> ${group.NAME} </label><br>
           `;
 
@@ -52,6 +52,14 @@ function login() {
   });
 }
 
+function requiredUserGroupsOnClick(e){
+  if (e.checked) {
+    $('#scope').tagsinput('add', e.labels[0].innerText);
+  } else {
+    $('#scope').tagsinput('remove', e.labels[0].innerText);
+  }
+}
+
 function getClientSettings() {
   let name = document.querySelector('#name').value;
 
@@ -61,7 +69,8 @@ function getClientSettings() {
   let authorization_grant_types = `${authorization_code ? authorization_code : ''} ${implicit ? implicit : ''} ${client_credentials ? client_credentials : ''}`;
   if (!authorization_code && !implicit && !client_credentials) authorization_grant_types = "";
 
-  let scope = document.querySelector('#scope').value;
+  let scope = document.querySelector('#scope').value.split(",").join("|");
+
   let access_token_validity = document.querySelector('#access_token_validity').value;
   access_token_validity = access_token_validity.length > 0 ? parseInt(access_token_validity) : null;
 
