@@ -32,6 +32,11 @@
       SASjs Viya Token Generator
     </h1>
 
+    <div style="position: absolute; top: 20px; right: 30px;">
+      <input onchange="onDebugChange(event)" type="checkbox" id="debug_switch">
+      <label for="debug_switch"> Debug mode</label><br>
+    </div>
+
     <h4 class="secHide">.env Format <span class="copy-icon" onclick="copyText('token-info-env')"></span></h4>
     <p class="secHide">Suitable for copy pasting into a .env file</p>
     <p id="token-info-env" class="secHide"></p>
@@ -57,24 +62,30 @@
       <p class="input-description">The list of grant types that can be used to obtain a token with this client.</p>
       <div class="input-container">
         <div>
-          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" checked>
-          <label for="authorized_grant_types-authorization_code"> Authorization code </label><br>
+          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" class="authorized_grant_type_input" checked>
+          <label for="authorized_grant_types-authorization_code"> authorization_code </label><br>
         </div>
 
         <div>
-          <input type="checkbox" id="authorized_grant_types-implicit" value="implicit">
-          <label for="authorized_grant_types-implicit"> Implicit</label><br>
+          <input type="checkbox" id="authorized_grant_types-implicit" value="implicit" class="authorized_grant_type_input">
+          <label for="authorized_grant_types-implicit"> implicit</label><br>
         </div>
 
         <div>
-          <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials">
-          <label for="authorized_grant_types-client_credentials"> Client credentials </label><br>
+          <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials" class="authorized_grant_type_input">
+          <label for="authorized_grant_types-client_credentials"> client_credentials </label><br>
         </div>
+
+        <div>
+          <input type="checkbox" id="authorized_grant_types-refresh_token" value="refresh_token" class="authorized_grant_type_input" checked>
+          <label for="authorized_grant_types-refresh_token"> refresh_token </label><br>
+        </div>
+        
       </div>
 
       <div class="input-container">
         <label class="title" for="scope">Scope</label>
-        <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
+        <p class="input-description">A space-separated list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
         <input type="text" id="scope" value="openid"/>
       </div>
 
@@ -99,9 +110,9 @@
       <hr/>
       
       <div class="input-container">
-        <p class="input-description">Scopes that do not require user approval. Boolean values true and false apply to all scopes. Otherwise, a space-separated list can be provided.</p>
+        <p class="input-description">Checking this box enables auto-approve of all scopes during the authentication step </p>
         <div>
-          <input type="checkbox" id="autoapprove" value="autoapprove" checked>
+          <input type="checkbox" id="autoapprove" value="autoapprove" >
           <label for="autoapprove"> Auto approve </label><br>
         </div>
 

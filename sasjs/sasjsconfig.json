@@ -3,13 +3,23 @@
   "services/common",
   "services/admin"
  ],
+ "cmnMacros": [
+  "macros"
+],
  "useMacroCore": true,
  "targets": [
   {
    "name": "viya",
    "serverType": "SASVIYA",
    "appLoc": "/Public/app/viyatoken",
-   "deployScript": "myviyadeploy.sas",
+   "buildOutputFileName": "myviyadeploy.sas",
+   "serverUrl": "http://sas.analytium.co.uk",
+   "tgtDeployScripts":[
+        "sasjsbuild/myviyadeploy.sas"
+    ],
+    "tgtDeployVars": {
+        "contextName": "Import 9 service compute context"
+    },
    "streamWeb": true,
    "streamWebFolder": "webv",
    "webSourcePath": "src"

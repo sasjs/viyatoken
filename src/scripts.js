@@ -37,6 +37,10 @@ function appInit() {
   });
 }
 
+function onDebugChange(event) {
+  sasJs.setDebugState(event.target.checked);
+}
+
 function login() {
   const username = document.querySelector("#username").value;
   const password = document.querySelector("#password").value;
@@ -55,11 +59,19 @@ function login() {
 function getClientSettings() {
   let name = document.querySelector('#name').value;
 
-  let authorization_code = document.querySelector('#authorized_grant_types-authorization_code').checked ? 'authorization_code' : "";
-  let implicit = document.querySelector('#authorized_grant_types-implicit').checked ? 'implicit' : "";
-  let client_credentials = document.querySelector('#authorized_grant_types-client_credentials').checked ? 'client_credentials' : "";
-  let authorization_grant_types = `${authorization_code ? authorization_code : ''} ${implicit ? implicit : ''} ${client_credentials ? client_credentials : ''}`;
-  if (!authorization_code && !implicit && !client_credentials) authorization_grant_types = "";
+  
+  let authorization_grant_types = "";
+  let auth_grant_type_inputs = document.querySelectorAll('.authorized_grant_type_input');
+  
+  for (let auth_grant_type_input of auth_grant_type_inputs) {
+    if (auth_grant_type_input.checked) {
+      if (authorization_grant_types.length > 0) {
+        authorization_grant_types += ' ';
+      }
+      
+      authorization_grant_types += auth_grant_type_input.value;
+    }
+  }
 
   let scope = document.querySelector('#scope').value;
   let access_token_validity = document.querySelector('#access_token_validity').value;
@@ -86,7 +98,7 @@ function getClientSettings() {
 
   return {
     name: name,
-    authorization_grant_types: authorization_grant_types,
+    authorized_grant_types: authorization_grant_types,
     scope: scope,
     access_token_validity: access_token_validity,
     refresh_token_validity: refresh_token_validity,
@@ -96,29 +108,49 @@ function getClientSettings() {
   }
 }
 
-function generateToken() {
+async function generateToken() {
     const generateTokenButton = document.querySelector('#generate-token');
     const clientSettingsContainer = document.querySelector('.client-settings');
     generateTokenButton.style = 'opacity: 0.3; pointer-events: none;';
     generateTokenButton.innerText = 'Generating...';
 
     let clientSettings = getClientSettings();
+    
+    let sasjsConfig = await sasJs.getSasjsConfig();
 
     let data = {'clientsettings': [clientSettings]};
 
-    sasJs.request("admin/getapptoken", data, null, (loginRequired) => {
+    if (sasjsConfig.debug) {
+      console.log('Client settings', clientSettings);
+      console.log('Data to sasjs', data);
+    }
+
+    sasJs.request("admin/getnewclient", data, null, (loginRequired) => {
         if (loginRequired) {
             const loginForm = document.querySelector("#login-form");
             loginForm.style.display = '';
         }
       }).then(res => {
-        client = res.clientinfo[0].CLIENT;
-        secret = res.clientinfo[0].SECRET;
+        client = res.clientinfo[0].CLIENT_ID;
+        secret = res.clientinfo[0].CLIENT_SECRET;
 
-        clientSettingsContainer.style.display = 'none';
-
-        goToAuthPage();
+        if (!res.error) {
+          clientSettingsContainer.style.display = 'none';
+          goToAuthPage();
+        } else {
+          resetGenerateScreen();
+        }
+    }, err => {
+      resetGenerateScreen();
     });
+}
+
+function resetGenerateScreen() {
+  const generateTokenButton = document.querySelector('#generate-token');
+  const clientSettingsContainer = document.querySelector('.client-settings');
+  generateTokenButton.style = '';
+  generateTokenButton.innerText = 'Generate token';
+  clientSettingsContainer.style.display = '';
 }
 
 function goToAuthPage() {
@@ -135,7 +167,12 @@ function goToAuthPage() {
         bodyElement.innerHTML = responseBody;
 
         let form = bodyElement.querySelector("#application_authorization");
-    
+        
+        if (!form) {
+          resetGenerateScreen();
+          return; 
+        }
+
         let inputs = form.querySelectorAll("input");
     
         for (let input of inputs) {
@@ -176,7 +213,7 @@ function goToAuthPage() {
                     }
                 ]
             }
-            sasJs.request('common/getrefreshtoken', data).then(res => {
+            sasJs.request('common/tokenauth', data).then(res => {
                 const generateTokenButton = document.querySelector('#generate-token');
                 generateTokenButton.style.display = 'none';
 
