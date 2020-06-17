@@ -4,7 +4,7 @@
   @details  Find and obtain app token
 
   <h4> Dependencies </h4>
-  @li mv_getrefreshtoken.sas
+  @li mv_tokenauth.sas
 
 **/
 
@@ -17,7 +17,7 @@ data _null_;
   call symputx('authcode',authcode);
 run;
 
-%mv_getrefreshtoken(client_id=&client,client_secret=&secret,code=&authcode)
+%mv_tokenauth(client_id=&client,client_secret=&secret,code=&authcode)
 
 
 data work.tokeninfo;
