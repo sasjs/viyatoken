@@ -2,6 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" crossorigin="anonymous">
+
     <link
       href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
       rel="stylesheet"
@@ -85,8 +88,8 @@
 
       <div class="input-container">
         <label class="title" for="scope">Scope</label>
-        <p class="input-description">A space-separated list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
-        <input type="text" id="scope" value="openid"/>
+        <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
+        <input type="text" id="scope" value="openid" data-role="tagsinput"/>
       </div>
 
       <div class="input-container">
@@ -132,6 +135,10 @@
 
       <button id="login" onclick="login()">Log in</button>
     </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" crossorigin="anonymous"></script>
 
     <style>
         * {
