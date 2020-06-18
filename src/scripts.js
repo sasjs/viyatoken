@@ -58,9 +58,52 @@ function login() {
 
 function requiredUserGroupsOnClick(e){
   if (e.checked) {
-    $('#scope').tagsinput('add', e.labels[0].innerText);
+    el = document.createElement('div');
+    el.className = 'scope-box';
+    el.id = e.value;
+    el.innerHTML = e.value;
+    document.querySelector('.scopes-container').appendChild(el);
   } else {
-    $('#scope').tagsinput('remove', e.labels[0].innerText);
+    removeScope(e.value);
+  }
+  
+}
+
+function removeScope(e) {
+  scopes = document.querySelector('.scopes-container').children
+  for (let scope of scopes) {
+    if (scope.id == e) {
+      scope.remove();
+      return;
+    }
+  }
+}
+
+function getScopeList() {
+    scopes = document.querySelector('.scopes-container').children
+    list = "";
+    for (let scope of scopes) {
+      list = list + "|" + scope.id;
+    }
+    list = list.substring(1);
+    return list;
+}
+
+function addScope(e) {
+  var unique = true;
+  scopes = document.querySelector('.scopes-container').children
+  for (let scope of scopes) {
+    if (scope.id == e) {
+      unique = false;
+    }
+  }
+  if (unique) {
+    scopes = document.querySelector('.scopes-container').children
+    el = document.createElement('div');
+    el.className = "scope-box";
+    el.id = e;
+    el.innerHTML = e + "<button onclick=\"removeScope('" + e + "')\">-</button>";
+    document.querySelector('.scopes-container').appendChild(el);
   }
 }
 
@@ -74,14 +117,14 @@ function getClientSettings() {
   for (let auth_grant_type_input of auth_grant_type_inputs) {
     if (auth_grant_type_input.checked) {
       if (authorization_grant_types.length > 0) {
-        authorization_grant_types += ' ';
+        authorization_grant_types += '|';
       }
       
       authorization_grant_types += auth_grant_type_input.value;
     }
   }
 
-  let scope = document.querySelector('#scope').value.split(",").join("|");
+  let scope = getScopeList();
 
   let access_token_validity = document.querySelector('#access_token_validity').value;
   access_token_validity = access_token_validity.length > 0 ? parseInt(access_token_validity) : null;
@@ -98,7 +141,7 @@ function getClientSettings() {
   for (let group_input of user_group_inputs) {
     if (group_input.checked) {
       if (required_user_groups.length > 0) {
-        required_user_groups += ' ';
+        required_user_groups += '|';
       }
 
       required_user_groups += group_input.value;
@@ -284,4 +327,33 @@ function copyText(id) {
   window.getSelection().addRange(range);
   document.execCommand("copy");
   alert("Your config has been copied to the clipboard.");
+}
+
+function updateScopelist(e) {
+  if (e.value.trim() != "") {
+    addScope(e.value);
+    e.value = "";
+  } else {
+    e.value = "";
+  }
+}
+
+function addListener() {
+  var input = document.getElementById("scope");
+  input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+        if (input.value.trim() != "") {
+          addScope(input.value);
+          input.value = "";
+        } else {
+          input.value = "";
+        }
+      }
+  });
+
+  input.addEventListener("onleave", function(event) {
+    if (event.keyCode === 13) {
+      updateScopelist(input);
+    }
+  });
 }

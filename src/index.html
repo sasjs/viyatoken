@@ -2,8 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css" crossorigin="anonymous">
 
     <link
       href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
@@ -12,6 +10,7 @@
 
     <script>
       function initSasJs() {
+        addListener();
         sasJs = new SASjs.default({
           appLoc: "/Public/app/viyatoken",
           serverType: "SASVIYA",
@@ -89,8 +88,21 @@
       <div class="input-container">
         <label class="title" for="scope">Scope</label>
         <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
-        <input type="text" id="scope" value="openid" data-role="tagsinput"/>
+        <input type="text" id="scope" value="" placeholder=" + Add scopes" onblur="updateScopelist(this)"/>
+        <div class="scopes-container">
+          <div class="scope-box" id="openid">
+            openid
+            <button onclick="removeScope('openid')">-</button>
+          </div>
+        </div>
       </div>
+
+      <p class="title">Required user groups</p>
+      <p class="input-description">A list of group names. If a user does not belong to all the required groups, the user will not be authenticated and no tokens are issued to this client for that user. If this field is not specified, authentication and token issuance proceeds normally.</p>
+      <div id="requiredUserGroupsContainer" class="input-container">
+        <p style="margin: 0; font-style: italic;" id="nogroups">No gorups available</p>
+      </div>
+
 
       <div class="input-container">
         <label class="title" for="access_token_validity">Access token validity</label>
@@ -104,12 +116,7 @@
         <input type="number" id="refresh_token_validity" value="2592000"/>
       </div>
 
-      <p class="title">Required user groups</p>
-      <p class="input-description">A list of group names. If a user does not belong to all the required groups, the user will not be authenticated and no tokens are issued to this client for that user. If this field is not specified, authentication and token issuance proceeds normally.</p>
-      <div id="requiredUserGroupsContainer" class="input-container">
-        <p style="margin: 0; font-style: italic;" id="nogroups">No gorups available</p>
-      </div>
-
+      
       <hr/>
       
       <div class="input-container">
@@ -135,11 +142,6 @@
 
       <button id="login" onclick="login()">Log in</button>
     </div>
-
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" crossorigin="anonymous"></script>
-
     <style>
         * {
             font-family: "Roboto", sans-serif;
@@ -298,6 +300,34 @@
         .title {
           font-weight: bold;
         }
+
+        .scopes-container {
+          border: 1px solid #9691e2;
+          border-radius: 5px;
+          margin-top: 4px;
+          min-height: 50px;
+        }
+
+        .scopes-container button {
+          width: 21px;
+          margin: -11px;
+          padding: 12px;
+          margin-left: 5px;
+          background: #ff3b4d;
+          line-height: 2px;
+        }
+
+        .scope-box {
+          background: #57aaca;
+          color: white;
+          padding: 5px;
+          margin: 3px;
+          border-radius: 4px;
+          float: left;
+          font-size: 14px;
+          padding-right: 10px;
+        }
+
     </style>
   </body>
 </html>
