@@ -72,7 +72,7 @@
     ,client_secret=
     ,client_name=DEFAULT
     ,scopes=openid
-    ,grant_type=authorization_code refresh_token
+    ,grant_type=authorization_code|refresh_token
     ,required_user_groups=
     ,autoapprove=
     ,use_session=
@@ -123,9 +123,9 @@ run;
 %end;
 
 %let scopes=%sysfunc(coalescec(&scopes,openid));
-%let scopes=%mf_getquotedstr(&scopes,QUOTE=D);
-%let grant_type=%mf_getquotedstr(&grant_type,QUOTE=D);
-%let required_user_groups=%mf_getquotedstr(&required_user_groups,QUOTE=D);
+%let scopes=%mf_getquotedstr(&scopes,QUOTE=D,indlm=|);
+%let grant_type=%mf_getquotedstr(&grant_type,QUOTE=D,indlm=|);
+%let required_user_groups=%mf_getquotedstr(&required_user_groups,QUOTE=D,indlm=|);
 
 data _null_;
   file &fname2;
@@ -173,6 +173,7 @@ proc http method='POST' in=&fname2 out=&fname3
 run;
 
 /* show response */
+%local err;
 %let err=NONE;
 data _null_;
   infile &fname3;
@@ -183,7 +184,7 @@ data _null_;
     call symputx('err',message,'l');
   end;
 run;
-%if &err ne NONE %then %do;
+%if "&err" ne "NONE" %then %do;
   %put %str(ERR)OR: &err;
   %return;
 %end;
