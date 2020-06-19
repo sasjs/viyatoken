@@ -4,7 +4,7 @@
   @details 
 
   <h4> Dependencies </h4>
-  @li mv_getgroups.sas
+  @li getgroups.sas
 
   @version 3.4
   @author Allan Bowe
@@ -12,7 +12,7 @@
 **/
 
 
-%mv_getgroups(outds=groups)
+%getgroups(outds=groups)
 
 %webout(OPEN)
 %webout(OBJ,groups)
