@@ -20,7 +20,7 @@ So we built a SASjs app for it.
 * NPM
 * SASjs 
 
-Once you have installed NPM, run `sasjs i -g sasjs-cli` to get the CLI tool
+Once you have installed NPM, run `sasjs i -g @sasjs/cli` to get the CLI tool
 
 ## Build Process
 

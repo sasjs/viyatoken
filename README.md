@@ -28,7 +28,7 @@ By default the app will be created in a `/Public/app/viyatoken` directory, if yo
 * NPM
 * SASjs 
 
-Once you have installed NPM, run `sasjs i -g sasjs-cli` to get the CLI tool
+Once you have installed NPM, run `sasjs i -g @sasjs/cli` to get the CLI tool
 
 ## Build Process
 
