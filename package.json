@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/macropeople/viyatoken.git"
+    "url": "git+ssh://git@github.com/sasjs/viyatoken.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/macropeople/viyatoken/issues"
+    "url": "https://github.com/sasjs/viyatoken/issues"
   },
-  "homepage": "https://gitlab.com/macropeople/viyatoken#readme",
+  "homepage": "https://github.com/sasjs/viyatoken#readme",
   "dependencies": {
-    "macrocore": "^7.3.0",
-    "sasjs": "^2.12.3"
+    "@sasjs/core": "^1.1.1",
+    "@sasjs/adapter": "^1.0.6"
   }
 }
