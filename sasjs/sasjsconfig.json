@@ -15,7 +15,7 @@
    "buildOutputFileName": "myviyadeploy.sas",
    "serverUrl": "http://sas.analytium.co.uk",
    "tgtDeployScripts":[
-        "sasjsbuild/myviyadeploy.sas"
+      "sasjs/build/copyscript.sh"
     ],
     "tgtDeployVars": {
         "contextName": "Import 9 service compute context"
