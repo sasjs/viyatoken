@@ -6,7 +6,7 @@ Run the code below in SASStudioV, and open the link in a browser, eg:  YOURSERVE
 
 
 ```
-filename vt url "https://sasjs.io/viyatoken.sas";
+filename vt url "https://raw.githubusercontent.com/sasjs/viyatoken/master/runme.sas";
 %inc vt;
 ```
 
