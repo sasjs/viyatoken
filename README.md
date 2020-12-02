@@ -10,7 +10,7 @@ filename vt url "https://raw.githubusercontent.com/sasjs/viyatoken/master/runme.
 %inc vt;
 ```
 
-If you don't have internet access from your SAS Compute instance, just copy paste the code directly from https://sasjs.io/viyatoken.sas. 
+If you don't have internet access from your SAS Compute instance, just copy paste the code directly into SASStudioV from https://raw.githubusercontent.com/sasjs/viyatoken/master/runme.sas.
 
 NOTE - this will only work if your JobExecution service is running under an admin identity that can access the CONSUL token (ie, **yours**).  If you have a pooled session, and this app works, then you have a security problem as your shared account has too much system access.
 
