@@ -18,11 +18,11 @@
         });
 
         const groups = [];
-       
+
         appInit();
       }
     </script>
-    
+
     <script src="../node_modules/@sasjs/adapter/index.js"></script>
     <script src="scripts.js"></script>
 
@@ -47,12 +47,12 @@
     <p id="token-info" class="secHide"></p>
     <h4 class="secHide">SAS Format <span class="copy-icon" onclick="copyText('token-info-macro')"></span></h4>
     <p class="secHide">
-    Suitable for including in SAS Programs that use the <a href="https://github.com/macropeople/macrocore">MacroCore</a> library
+    Suitable for including in SAS Programs that use the <a href="https://github.com/sasjs/core">MacroCore</a> library
     </p>
     <p id="token-info-macro" class="secHide"></p>
 
     <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
-    
+
     <div class="client-settings" style="display: none;">
       <div class="input-container">
         <label class="title" for="name">Name</label>
@@ -97,7 +97,7 @@
           <input type="checkbox" id="authorized_grant_types-samlbearer" value="urn:ietf:params:oauth:grant-type:saml2-bearer" class="authorized_grant_type_input" >
           <label for="authorized_grant_types-samlbearer"> urn:ietf:params:oauth:grant-type:saml2-bearer </label><br>
         </div>
-        
+
         <div>
           <input type="checkbox" id="authorized_grant_types-jwtbearer" value="urn:ietf:params:oauth:grant-type:jwt-bearer" class="authorized_grant_type_input" >
           <label for="authorized_grant_types-jwtbearer"> urn:ietf:params:oauth:grant-type:jwt-bearer</label><br>
@@ -136,9 +136,9 @@
         <input type="number" id="refresh_token_validity" value="2592000"/>
       </div>
 
-      
+
       <hr/>
-      
+
       <div class="input-container">
         <p class="input-description">Checking this box enables auto-approve of all scopes during the authentication step </p>
         <div>
@@ -241,7 +241,7 @@
             position: relative;
             background: white;
         }
-        
+
         input {
             padding: 10px;
             border-radius: 5px;
