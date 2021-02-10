@@ -2,12 +2,12 @@
  "$schema": "https://cli.sasjs.io/sasjsconfig-schema.json",
  "serviceConfig": {
   "serviceFolders": [
-   "services/common",
-   "services/admin"
+   "sasjs/services/common",
+   "sasjs/services/admin"
   ]
  },
  "macroFolders": [
-  "macros"
+  "sasjs/macros"
  ],
  "targets": [
   {
@@ -21,7 +21,7 @@
    "deployConfig": {
     "deployServicePack": false,
     "deployScripts": [
-     "build/copyscript.sh"
+     "sasjs/build/copyscript.sh"
     ]
    },
    "streamConfig": {
