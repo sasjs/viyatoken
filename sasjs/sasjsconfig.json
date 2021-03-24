@@ -1,5 +1,5 @@
 {
- "$schema": "https://cli.sasjs.io/sasjsconfig-schema.json",
+ "$schema": "https://raw.githubusercontent.com/sasjs/utils/main/src/types/sasjsconfig-schema.json",
  "serviceConfig": {
   "serviceFolders": [
    "sasjs/services/common",
@@ -17,7 +17,7 @@
    "buildConfig":{
      "buildOutputFileName": "myviyadeploy.sas"
    },
-   "serverUrl": "http://sas.analytium.co.uk",
+   "serverUrl": "https://sas.analytium.co.uk",
    "deployConfig": {
     "deployServicePack": false,
     "deployScripts": [
