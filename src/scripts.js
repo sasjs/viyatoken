@@ -5,7 +5,7 @@ let secret = "";
 let authcode = "";
 
 function appInit() {
-  sasJs.request('common/appinit', null, null, (loginRequired) => {
+  sasJs.request('services/common/appinit', null, null, (loginRequired) => {
     if (loginRequired) {
         const loginForm = document.querySelector("#login-form");
         loginForm.style.display = '';
@@ -177,7 +177,7 @@ async function generateToken() {
       console.log('Data to sasjs', data);
     }
 
-    sasJs.request("admin/getnewclient", data, null, (loginRequired) => {
+    sasJs.request("services/admin/getnewclient", data, null, (loginRequired) => {
         if (loginRequired) {
             const loginForm = document.querySelector("#login-form");
             loginForm.style.display = '';
@@ -265,7 +265,7 @@ function goToAuthPage() {
                     }
                 ]
             }
-            sasJs.request('common/tokenauth', data).then(res => {
+            sasJs.request('services/common/tokenauth', data).then(res => {
                 const generateTokenButton = document.querySelector('#generate-token');
                 generateTokenButton.style.display = 'none';
 

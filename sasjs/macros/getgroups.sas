@@ -1,8 +1,8 @@
 /**
-  @file getgroups.sas
+  @file 
   @brief a wrapper macro purely to demonstrate app-specific macros in SASjs
 
-  <h4> Dependencies </h4>
+  <h4> SAS Macros </h4>
   @li mv_getgroups.sas
 
   @version 3.4

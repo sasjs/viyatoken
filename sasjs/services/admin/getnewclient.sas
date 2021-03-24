@@ -1,10 +1,10 @@
 /**
 
-  @file getnewclient.sas
+  @file 
   @brief returns token.  User must be admin.
   @details  Find and obtain app token
 
-  <h4> Dependencies </h4>
+  <h4> SAS Macros </h4>
   @li mv_registerclient.sas
 
 **/

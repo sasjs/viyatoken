@@ -1,10 +1,17 @@
 /**
-  @file appinit.sas
+  @file
   @brief provides the list of viya groups and other startup info
   @details
 
-  <h4> Dependencies </h4>
+  <h4> SAS Macros </h4>
   @li getgroups.sas
+
+  <h4> Service Outputs </h4>
+
+  GROUPS
+  |id$|name $|
+  |---|---|
+  |groupid|groupname|
 
   @version 3.4
   @author Allan Bowe

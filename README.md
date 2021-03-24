@@ -1,8 +1,10 @@
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/sasjs/viyatoken)
+
 # Viya Token Generator
 
 ## TL;DR
 
-Run the code below in SASStudioV, and open the link in a browser, eg:  YOURSERVER/SASJobExecution?_program=/Public/app/viyatoken/clickme
+Run the code below in SASStudioV, and open the link from the log in a browser, eg:  YOURSERVER/SASJobExecution?_program=/Public/app/viyatoken/clickme
 
 
 ```
@@ -26,10 +28,10 @@ By default the app will be created in a `/Public/app/viyatoken` directory, if yo
 ## Prerequisites
 
 * NPM
-* SASjs 
+* SASjs
 
 Once you have installed NPM, run `sasjs i -g @sasjs/cli` to get the CLI tool
 
 ## Build Process
 
-Clone the repo and `cd` into it.  Then run `sasjs cb viya`.  This will compile the assets from the `src` folder and build a deployment program under `sasjsbuild`.  Run this program in SAS (must be StudioV in Viya) to create the services.  The link will be at the bottom of the log.
+Clone the repo and `cd` into it (or, just click the gitpod link above).  Then run `sasjs cb viya`.  This will compile the assets from the `src` folder and build a deployment program under `sasjsbuild`.  Run this program in SAS (must be StudioV in Viya) to create the services.  The link will be at the bottom of the log.

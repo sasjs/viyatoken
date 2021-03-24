@@ -1,9 +1,9 @@
 /**
-  @file getrefreshtoken.sas
+  @file 
   @brief Get refresh token using authorization code.
   @details  Find and obtain app token
 
-  <h4> Dependencies </h4>
+  <h4> SAS Macros </h4>
   @li mv_tokenauth.sas
 
 **/

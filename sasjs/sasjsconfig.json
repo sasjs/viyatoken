@@ -9,19 +9,21 @@
  "macroFolders": [
   "sasjs/macros"
  ],
+ "defaultTarget":"viya",
  "targets": [
   {
    "name": "viya",
    "serverType": "SASVIYA",
    "appLoc": "/Public/app/viyatoken",
    "buildConfig":{
-     "buildOutputFileName": "myviyadeploy.sas"
+     "buildOutputFileName": "myviyadeploy.sas",
+     "initProgram": "sasjs/utils/buildinit.sas"
    },
    "serverUrl": "https://sas.analytium.co.uk",
    "deployConfig": {
     "deployServicePack": false,
     "deployScripts": [
-     "sasjs/build/copyscript.sh"
+     "sasjs/utils/copyscript.sh"
     ]
    },
    "streamConfig": {
