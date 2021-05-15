@@ -1,36 +1,33 @@
 {
- "$schema": "https://raw.githubusercontent.com/sasjs/utils/main/src/types/sasjsconfig-schema.json",
- "serviceConfig": {
-  "serviceFolders": [
-   "sasjs/services/common",
-   "sasjs/services/admin"
+  "$schema": "https://raw.githubusercontent.com/sasjs/utils/main/src/types/sasjsconfig-schema.json",
+  "serviceConfig": {
+    "serviceFolders": ["sasjs/services/common", "sasjs/services/admin"]
+  },
+  "macroFolders": ["sasjs/macros"],
+  "defaultTarget": "viya",
+  "targets": [
+    {
+      "name": "viya",
+      "serverType": "SASVIYA",
+      "appLoc": "/Public/app/viyatoken",
+      "buildConfig": {
+        "buildOutputFileName": "myviyadeploy.sas",
+        "initProgram": "sasjs/utils/buildinit.sas"
+      },
+      "serverUrl": "https://sas.analytium.co.uk",
+      "deployConfig": {
+        "deployServicePack": true,
+        "deployScripts": ["sasjs/utils/copyscript.sh"]
+      },
+      "streamConfig": {
+        "assetPaths": [],
+        "streamWeb": true,
+        "streamWebFolder": "webv",
+        "webSourcePath": "src"
+      },
+      "testConfig": {
+        "initProgram": "sasjs/utils/testinit.sas"
+      }
+    }
   ]
- },
- "macroFolders": [
-  "sasjs/macros"
- ],
- "defaultTarget":"viya",
- "targets": [
-  {
-   "name": "viya",
-   "serverType": "SASVIYA",
-   "appLoc": "/Public/app/viyatoken",
-   "buildConfig":{
-     "buildOutputFileName": "myviyadeploy.sas",
-     "initProgram": "sasjs/utils/buildinit.sas"
-   },
-   "serverUrl": "https://sas.analytium.co.uk",
-   "deployConfig": {
-    "deployServicePack": false,
-    "deployScripts": [
-     "sasjs/utils/copyscript.sh"
-    ]
-   },
-   "streamConfig": {
-    "assetPaths": [],
-    "streamWeb": true,
-    "streamWebFolder": "webv",
-    "webSourcePath": "src"
-   }
-  }]
 }

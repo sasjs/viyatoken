@@ -1,9 +1,8 @@
 tasks:
-  - init: npm i && clear
+  - init: npm i && npm i -g @sasjs/cli && clear
 
 image:
   file: .gitpod.dockerfile
 vscode:
   extensions:
-    - redlin.remove-tabs-on-save@1.2.1:oo8vGLFgpWicEzdLvlC/8g==
-    - sasjs.sasjs-for-vscode@1.6.0:V4hJpMtbpekMcPRNhh4SXQ==
+    - sasjs.sasjs-for-vscode
