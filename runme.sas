@@ -1,8 +1,13 @@
+/**
+  @file
+  @brief <Your brief here>
+  <h4> SAS Macros </h4>
+**/
 %global appLoc;
 %let appLoc=%sysfunc(coalescec(&appLoc,/Public/app/viyatoken)); /* metadata or files service location of your app */
 %let sasjs_clickmeservice=clickme;
 %let syscc=0;
-options ps=max noquotelenmax;
+options ps=max nonotes nosgen nomprint nomlogic nosource2 nosource noquotelenmax;
 %macro mp_abort(mac=mp_abort.sas, type=, msg=, iftrue=%str(1=1)
 )/*/STORE SOURCE*/;
   %if not(%eval(%unquote(&iftrue))) %then %return;
@@ -126,7 +131,7 @@ options ps=max noquotelenmax;
     %put _all_;
     %abort cancel;
   %end;
-%mend;
+%mend skippy;
 /** @endcond */
 %macro mf_getuniquefileref(prefix=mcref,maxtries=1000);
   %local x fname;
@@ -142,7 +147,7 @@ options ps=max noquotelenmax;
   %end;
   %end;
   %put unable to find available fileref in range &prefix.0-&maxtries;
-%mend;
+%mend mf_getuniquefileref;
 %macro mf_getuniquelibref(prefix=mclib,maxtries=1000);
   %local x libref;
   %let x=0;
@@ -157,16 +162,16 @@ options ps=max noquotelenmax;
   %end;
   %end;
   %put unable to find available libref in range &prefix.0-&maxtries;
-%mend;
+%mend mf_getuniquelibref;
 %macro mf_isblank(param
 )/*/STORE SOURCE*/;
   %sysevalf(%superq(param)=,boolean)
-%mend;
+%mend mf_isblank;
 %macro mf_mval(var);
   %if %symexist(&var) %then %do;
     %superq(&var)
   %end;
-%mend;
+%mend mf_mval;
 %macro mf_trimstr(basestr,trimstr);
 %local baselen trimlen trimval;
 /* return if basestr is shorter than trimstr (or 0) */
@@ -187,7 +192,7 @@ options ps=max noquotelenmax;
 %else %do;
   &basestr
 %end;
-%mend;
+%mend mf_trimstr;
 %macro mf_getplatform(switch
 )/*/STORE SOURCE*/;
 %local a b c;
@@ -230,7 +235,7 @@ options ps=max noquotelenmax;
 %else %if &switch=VIYARESTAPI %then %do;
   %mf_trimstr(%sysfunc(getoption(servicesbaseurl)),/)
 %end;
-%mend;
+%mend mf_getplatform;
 %macro mv_createfolder(path=
     ,access_token_var=ACCESS_TOKEN
     ,grant_type=sas_services
@@ -343,7 +348,7 @@ options noquotelenmax;
   filename &fname1 clear;
   libname &libref1 clear;
 %end;
-%mend;
+%mend mv_createfolder;
 %macro mv_deletejes(path=
     ,name=
     ,access_token_var=ACCESS_TOKEN
@@ -453,7 +458,7 @@ filename &fname1 clear;
 libname &libref1 clear;
 filename &fname1a clear;
 libname &libref1a clear;
-%mend;
+%mend mv_deletejes;
 %macro mv_createwebservice(path=
     ,name=
     ,desc=Created by the mv_createwebservice.sas macro
@@ -1026,7 +1031,7 @@ run;
 %put    &url/SASJobExecution?_PROGRAM=&path/&name;%put;
 %put &sysmacroname:;
 %put &sysmacroname:;
-%mend;
+%mend mv_createwebservice;
 * BuildInit start;
 options nonotes nomprint;
 * BuildInit end;
@@ -1858,6 +1863,8 @@ file sascode;
  put '%mv_webout(&action,ds=&ds,dslabel=&dslabel,fmt=&fmt)';
  put '%mend;';
  put '/* provide additional debug info */';
+ put '%global _program;';
+ put '%put &=syscc;';
  put '%put user=%mf_getuser();';
  put '%put pgm=&_program;';
  put '%put timestamp=%sysfunc(datetime(),datetime19.);';
@@ -2657,6 +2664,8 @@ file sascode;
  put '%mv_webout(&action,ds=&ds,dslabel=&dslabel,fmt=&fmt)';
  put '%mend;';
  put '/* provide additional debug info */';
+ put '%global _program;';
+ put '%put &=syscc;';
  put '%put user=%mf_getuser();';
  put '%put pgm=&_program;';
  put '%put timestamp=%sysfunc(datetime(),datetime19.);';
@@ -3290,6 +3299,8 @@ file sascode;
  put '%mv_webout(&action,ds=&ds,dslabel=&dslabel,fmt=&fmt)';
  put '%mend;';
  put '/* provide additional debug info */';
+ put '%global _program;';
+ put '%put &=syscc;';
  put '%put user=%mf_getuser();';
  put '%put pgm=&_program;';
  put '%put timestamp=%sysfunc(datetime(),datetime19.);';
