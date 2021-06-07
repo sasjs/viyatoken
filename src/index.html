@@ -23,6 +23,12 @@
       }
     </script>
 
+    <!--
+      When building the 'streaming' version, the adapter is taken from node
+      modules.  For regular installs, use a CDN or copy the index.js into the
+      src folder and reference it there instead, eg:
+      <script src="index.js"></script>
+    -->
     <script src="../node_modules/@sasjs/adapter/index.js"></script>
     <script src="scripts.js"></script>
 
