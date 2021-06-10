@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/sasjs/viyatoken#readme",
   "dependencies": {
-    "@sasjs/adapter": "^2.4.0",
-    "@sasjs/core": "^2.34.2"
+    "@sasjs/adapter": "^2.7.0",
+    "@sasjs/core": "^2.34.4"
   }
 }
