@@ -21,13 +21,12 @@
    },
    "serverUrl": "https://sas.analytium.co.uk",
    "deployConfig": {
-    "deployServicePack": false,
+    "deployServicePack": true,
     "deployScripts": [
      "sasjs/utils/copyscript.sh"
     ]
    },
    "streamConfig": {
-    "assetPaths": [],
     "streamWeb": true,
     "streamWebFolder": "webv",
     "webSourcePath": "src"

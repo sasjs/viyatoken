@@ -1,359 +1,390 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <link
-      href="https://fonts.googleapis.com/css?family=Roboto&display=swap"
-      rel="stylesheet"
-    />
+<head>
+  <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=edge" />
 
-    <script>
-      function initSasJs() {
-        addListener();
-        sasJs = new SASjs.default({
-          appLoc: "/Public/app/viyatoken",
-          serverType: "SASVIYA",
-          debug: false,
-        });
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
 
-        const groups = [];
+  <script>
+    function initSasJs() {
+      addListener();
+      sasJs = new SASjs.default({
+        appLoc: "/Public/app/viyatoken",
+        serverType: "SASVIYA",
+        useComputeApi: false,
+        debug: true
+      });
 
-        appInit();
-      }
-    </script>
+      const groups = [];
 
-    <!--
+      appInit();
+    }
+  </script>
+
+  <!--
       When building the 'streaming' version, the adapter is taken from node
       modules.  For regular installs, use a CDN or copy the index.js into the
       src folder and reference it there instead, eg:
       <script src="index.js"></script>
     -->
-    <script src="../node_modules/@sasjs/adapter/index.js"></script>
-    <script src="scripts.js"></script>
+  <script src="sasjs.js"></script>
+  <script src="scripts.js"></script>
 
-    <title>ViyaToken</title>
-  </head>
-  <body onload="initSasJs()">
-    <button class="secHide" id="refresh" onclick="refreshPage()">Refresh</button>
-    <h1>
-      SASjs Viya Token Generator
-    </h1>
+  <title>ViyaToken</title>
+</head>
 
-    <div style="position: absolute; top: 20px; right: 30px;">
-      <input onchange="onDebugChange(event)" type="checkbox" id="debug_switch">
-      <label for="debug_switch"> Debug mode</label><br>
-    </div>
+<body onload="initSasJs()">
+  <button class="secHide" id="refresh" onclick="refreshPage()">Refresh</button>
+  <h1>
+    SASjs Viya Token Generator
+  </h1>
 
-    <h4 class="secHide">.env Format <span class="copy-icon" onclick="copyText('token-info-env')"></span></h4>
-    <p class="secHide">Suitable for copy pasting into a .env file</p>
-    <p id="token-info-env" class="secHide"></p>
-    <h4 class="secHide">JSON Format <span class="copy-icon" onclick="copyText('token-info')"></span></h4>
-    <p class="secHide">Suitable for copy pasting into the <a href="https://sasjs.io">SASjs</a> Config file</p>
-    <p id="token-info" class="secHide"></p>
-    <h4 class="secHide">SAS Format <span class="copy-icon" onclick="copyText('token-info-macro')"></span></h4>
-    <p class="secHide">
+  <div style="position: absolute; top: 20px; right: 30px;">
+    <input onchange="onDebugChange(event)" type="checkbox" id="debug_switch">
+    <label for="debug_switch"> Debug mode</label><br>
+  </div>
+
+  <h4 class="secHide">.env Format <span class="copy-icon" onclick="copyText('token-info-env')"></span></h4>
+  <p class="secHide">Suitable for copy pasting into a .env file</p>
+  <p id="token-info-env" class="secHide"></p>
+  <h4 class="secHide">JSON Format <span class="copy-icon" onclick="copyText('token-info')"></span></h4>
+  <p class="secHide">Suitable for copy pasting into the <a href="https://sasjs.io">SASjs</a> Config file</p>
+  <p id="token-info" class="secHide"></p>
+  <h4 class="secHide">SAS Format <span class="copy-icon" onclick="copyText('token-info-macro')"></span></h4>
+  <p class="secHide">
     Suitable for including in SAS Programs that use the <a href="https://github.com/sasjs/core">MacroCore</a> library
-    </p>
-    <p id="token-info-macro" class="secHide"></p>
+  </p>
+  <p id="token-info-macro" class="secHide"></p>
 
-    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+  <div class="lds-ring">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 
-    <div class="client-settings" style="display: none;">
-      <div class="input-container">
-        <label class="title" for="name">Name</label>
-        <p class="input-description">A human readable name for the client</p>
-        <input type="text" id="name"/>
-      </div>
-
-      <p class="title">Authorized grant types</p>
-      <p class="input-description">The list of grant types that can be used to obtain a token with this client.</p>
-      <div class="input-container">
-        <div>
-          <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code" class="authorized_grant_type_input" checked>
-          <label for="authorized_grant_types-authorization_code"> authorization_code </label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-implicit" value="implicit" class="authorized_grant_type_input">
-          <label for="authorized_grant_types-implicit"> implicit</label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-password" value="password" class="authorized_grant_type_input">
-          <label for="authorized_grant_types-password"> password</label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials" class="authorized_grant_type_input">
-          <label for="authorized_grant_types-client_credentials"> client_credentials </label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-refresh_token" value="refresh_token" class="authorized_grant_type_input" checked>
-          <label for="authorized_grant_types-refresh_token"> refresh_token </label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-user_token" value="user_token" class="authorized_grant_type_input" >
-          <label for="authorized_grant_types-user_token"> user_token </label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-samlbearer" value="urn:ietf:params:oauth:grant-type:saml2-bearer" class="authorized_grant_type_input" >
-          <label for="authorized_grant_types-samlbearer"> urn:ietf:params:oauth:grant-type:saml2-bearer </label><br>
-        </div>
-
-        <div>
-          <input type="checkbox" id="authorized_grant_types-jwtbearer" value="urn:ietf:params:oauth:grant-type:jwt-bearer" class="authorized_grant_type_input" >
-          <label for="authorized_grant_types-jwtbearer"> urn:ietf:params:oauth:grant-type:jwt-bearer</label><br>
-        </div>
-
-      </div>
-
-      <div class="input-container">
-        <label class="title" for="scope">Scope</label>
-        <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you might request when obtaining a token. The "openid" is a special scope that represents authentication only and should always be included.</p>
-        <input type="text" id="scope" value="" placeholder=" + Add scopes" onblur="updateScopelist(this)"/>
-        <div class="scopes-container">
-          <div class="scope-box" id="openid">
-            openid
-            <button onclick="removeScope('openid')">-</button>
-          </div>
-        </div>
-      </div>
-
-      <p class="title">Required user groups</p>
-      <p class="input-description">A list of group names. If a user does not belong to all the required groups, the user will not be authenticated and no tokens are issued to this client for that user. If this field is not specified, authentication and token issuance proceeds normally.</p>
-      <div id="requiredUserGroupsContainer" class="input-container">
-        <p style="margin: 0; font-style: italic;" id="nogroups">No gorups available</p>
-      </div>
-
-
-      <div class="input-container">
-        <label class="title" for="access_token_validity">Access token validity</label>
-        <p class="input-description">By default, an access token is valid for 12 hours (or 43200 seconds). Set this using an integer value for time in seconds.</p>
-        <input type="number" id="access_token_validity"value="43200"/>
-      </div>
-
-      <div class="input-container">
-        <label class="title" for="refresh_token_validity">Refresh token_validity</label>
-        <p class="input-description">Refresh Token validity. Set an integer value for time in seconds. Default is 30 days (2592000 seconds).</p>
-        <input type="number" id="refresh_token_validity" value="2592000"/>
-      </div>
-
-
-      <hr/>
-
-      <div class="input-container">
-        <p class="input-description">Checking this box enables auto-approve of all scopes during the authentication step </p>
-        <div>
-          <input type="checkbox" id="autoapprove" value="autoapprove" checked>
-          <label for="autoapprove"> Auto approve </label><br>
-        </div>
-
-        <p class="input-description">If true, access tokens issued to this client will be associated with an HTTP session and revoked upon logout or time-out.</p>
-        <div>
-          <input type="checkbox" id="use_session" value="use_session" checked>
-          <label for="use_session"> Use session </label><br>
-        </div>
-      </div>
-
-      <button id="generate-token" onclick="generateToken()">Generate token</button>
+  <div class="client-settings" style="display: none;">
+    <div class="input-container">
+      <label class="title" for="name">Name</label>
+      <p class="input-description">A human readable name for the client</p>
+      <input type="text" id="name" />
     </div>
 
-    <div style="display: none;" class="login-form" id="login-form">
-      <input type="text" id="username" placeholder="Enter username" />
-      <input type="password" id="password" placeholder="Enter password" />
+    <p class="title">Authorized grant types</p>
+    <p class="input-description">The list of grant types that can be used to obtain a token with this client.</p>
+    <div class="input-container">
+      <div>
+        <input type="checkbox" id="authorized_grant_types-authorization_code" value="authorization_code"
+          class="authorized_grant_type_input" checked>
+        <label for="authorized_grant_types-authorization_code"> authorization_code </label><br>
+      </div>
 
-      <button id="login" onclick="login()">Log in</button>
+      <div>
+        <input type="checkbox" id="authorized_grant_types-implicit" value="implicit"
+          class="authorized_grant_type_input">
+        <label for="authorized_grant_types-implicit"> implicit</label><br>
+      </div>
+
+      <div>
+        <input type="checkbox" id="authorized_grant_types-password" value="password"
+          class="authorized_grant_type_input">
+        <label for="authorized_grant_types-password"> password</label><br>
+      </div>
+
+      <div>
+        <input type="checkbox" id="authorized_grant_types-client_credentials" value="client_credentials"
+          class="authorized_grant_type_input">
+        <label for="authorized_grant_types-client_credentials"> client_credentials </label><br>
+      </div>
+
+      <div>
+        <input type="checkbox" id="authorized_grant_types-refresh_token" value="refresh_token"
+          class="authorized_grant_type_input" checked>
+        <label for="authorized_grant_types-refresh_token"> refresh_token </label><br>
+      </div>
+
+      <div>
+        <input type="checkbox" id="authorized_grant_types-user_token" value="user_token"
+          class="authorized_grant_type_input">
+        <label for="authorized_grant_types-user_token"> user_token </label><br>
+      </div>
+
+      <div>
+        <input type="checkbox" id="authorized_grant_types-samlbearer"
+          value="urn:ietf:params:oauth:grant-type:saml2-bearer" class="authorized_grant_type_input">
+        <label for="authorized_grant_types-samlbearer"> urn:ietf:params:oauth:grant-type:saml2-bearer </label><br>
+      </div>
+
+      <div>
+        <input type="checkbox" id="authorized_grant_types-jwtbearer" value="urn:ietf:params:oauth:grant-type:jwt-bearer"
+          class="authorized_grant_type_input">
+        <label for="authorized_grant_types-jwtbearer"> urn:ietf:params:oauth:grant-type:jwt-bearer</label><br>
+      </div>
+
     </div>
-    <style>
-        * {
-            font-family: "Roboto", sans-serif;
-        }
 
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            padding-bottom: 30px;
-        }
+    <div class="input-container">
+      <label class="title" for="scope">Scope</label>
+      <p class="input-description">The scopes allowed for the client. Can be a list of scopes and groups that you might
+        request when obtaining a token. You might also specify the wildcard "*" to request all scopes always. SAS Viya
+        treats group memberships as scopes. Therefore, the list of scopes is the list of group memberships that you
+        might request when obtaining a token. The "openid" is a special scope that represents authentication only and
+        should always be included.</p>
+      <input type="text" id="scope" value="" placeholder=" + Add scopes" onblur="updateScopelist(this)" />
+      <div class="scopes-container">
+        <div class="scope-box" id="openid">
+          openid
+          <button onclick="removeScope('openid')">-</button>
+        </div>
+      </div>
+    </div>
 
-        .lds-ring {
-          display: inline-block;
-          position: absolute;
-          width: 80px;
-          height: 80px;
-          margin-top: 70px;
-        }
-        .lds-ring div {
-          box-sizing: border-box;
-          display: block;
-          position: absolute;
-          width: 64px;
-          height: 64px;
-          margin: 8px;
-          border: 8px solid #3f51b5;
-          border-radius: 50%;
-          animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-          border-color: #3f51b5 transparent transparent transparent;
-        }
-        .lds-ring div:nth-child(1) {
-          animation-delay: -0.45s;
-        }
-        .lds-ring div:nth-child(2) {
-          animation-delay: -0.3s;
-        }
-        .lds-ring div:nth-child(3) {
-          animation-delay: -0.15s;
-        }
-        @keyframes lds-ring {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
+    <p class="title">Required user groups</p>
+    <p class="input-description">A list of group names. If a user does not belong to all the required groups, the user
+      will not be authenticated and no tokens are issued to this client for that user. If this field is not specified,
+      authentication and token issuance proceeds normally.</p>
+    <div id="requiredUserGroupsContainer" class="input-container">
+      <p style="margin: 0; font-style: italic;" id="nogroups">No gorups available</p>
+    </div>
 
-        button {
-            background-color: #3f51b5;
-            color: #ffffff;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin: 10px 0;
-        }
 
-            button:focus,
-            input:focus {
-            outline: none;
-        }
+    <div class="input-container">
+      <label class="title" for="access_token_validity">Access token validity</label>
+      <p class="input-description">By default, an access token is valid for 12 hours (or 43200 seconds). Set this using
+        an integer value for time in seconds.</p>
+      <input type="number" id="access_token_validity" value="43200" />
+    </div>
 
-        button:hover {
-            box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
-        }
+    <div class="input-container">
+      <label class="title" for="refresh_token_validity">Refresh token_validity</label>
+      <p class="input-description">Refresh Token validity. Set an integer value for time in seconds. Default is 30 days
+        (2592000 seconds).</p>
+      <input type="number" id="refresh_token_validity" value="2592000" />
+    </div>
 
-        .login-form {
-            display: flex;
-            flex-direction: column;
 
-            position: relative;
-            background: white;
-        }
+    <hr />
 
-        input {
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 20px;
-            border: 1px solid #d9d9d9;
-            margin-top: 5px;
-        }
+    <div class="input-container">
+      <p class="input-description">Checking this box enables auto-approve of all scopes during the authentication step
+      </p>
+      <div>
+        <input type="checkbox" id="autoapprove" value="autoapprove" checked>
+        <label for="autoapprove"> Auto approve </label><br>
+      </div>
 
-        .input-container {
-          display: flex;
-          flex-direction: column;
-        }
+      <p class="input-description">If true, access tokens issued to this client will be associated with an HTTP session
+        and revoked upon logout or time-out.</p>
+      <div>
+        <input type="checkbox" id="use_session" value="use_session" checked>
+        <label for="use_session"> Use session </label><br>
+      </div>
+    </div>
 
-        .secHide{
-          display:none
-        }
+    <button id="generate-token" onclick="generateToken()">Generate token</button>
+  </div>
 
-        #token-info, #token-info-macro, #token-info-env {
-            background: #f7f5f5;
-            padding: 20px;
-            border: 1px solid gainsboro;
-            align-self: center;
-            white-space: pre;
-            width: 95%;
-            overflow-x: auto;
-            /* white-space: pre-wrap;
+  <div style="display: none;" class="login-form" id="login-form">
+    <input type="text" id="username" placeholder="Enter username" />
+    <input type="password" id="password" placeholder="Enter password" />
+
+    <button id="login" onclick="login()">Log in</button>
+  </div>
+  <style>
+    * {
+      font-family: "Roboto", sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      padding-bottom: 30px;
+    }
+
+    .lds-ring {
+      display: inline-block;
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      margin-top: 70px;
+    }
+
+    .lds-ring div {
+      box-sizing: border-box;
+      display: block;
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      margin: 8px;
+      border: 8px solid #3f51b5;
+      border-radius: 50%;
+      animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+      border-color: #3f51b5 transparent transparent transparent;
+    }
+
+    .lds-ring div:nth-child(1) {
+      animation-delay: -0.45s;
+    }
+
+    .lds-ring div:nth-child(2) {
+      animation-delay: -0.3s;
+    }
+
+    .lds-ring div:nth-child(3) {
+      animation-delay: -0.15s;
+    }
+
+    @keyframes lds-ring {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    button {
+      background-color: #3f51b5;
+      color: #ffffff;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    button:focus,
+    input:focus {
+      outline: none;
+    }
+
+    button:hover {
+      box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+
+      position: relative;
+      background: white;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 20px;
+      border: 1px solid #d9d9d9;
+      margin-top: 5px;
+    }
+
+    .input-container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .secHide {
+      display: none
+    }
+
+    #token-info,
+    #token-info-macro,
+    #token-info-env {
+      background: #f7f5f5;
+      padding: 20px;
+      border: 1px solid gainsboro;
+      align-self: center;
+      white-space: pre;
+      width: 95%;
+      overflow-x: auto;
+      /* white-space: pre-wrap;
             word-break: break-word;
             width: 95%; */
-        }
+    }
 
-        #token-info-macro {
-            margin-top: 20px;
-            /* word-break: break-all; */
-        }
+    #token-info-macro {
+      margin-top: 20px;
+      /* word-break: break-all; */
+    }
 
-        .client-settings {
-          display: flex;
-          flex-direction: column;
-          padding: 0 150px;
-        }
+    .client-settings {
+      display: flex;
+      flex-direction: column;
+      padding: 0 150px;
+    }
 
-        .input-container {
-          margin-bottom: 10px;
-        }
+    .input-container {
+      margin-bottom: 10px;
+    }
 
-        .copy-icon {
-          cursor: pointer;
-          width: 20px;
-          height: 20px;
-          display: inline-block;
-          background-size: contain;
-          background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjIgNnYxNmgtMTZ2LTE2aDE2em0yLTJoLTIwdjIwaDIwdi0yMHptLTI0IDE3di0yMWgyMXYyaC0xOXYxOWgtMnoiLz48L3N2Zz4=");
-        }
+    .copy-icon {
+      cursor: pointer;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      background-size: contain;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMjIgNnYxNmgtMTZ2LTE2aDE2em0yLTJoLTIwdjIwaDIwdi0yMHptLTI0IDE3di0yMWgyMXYyaC0xOXYxOWgtMnoiLz48L3N2Zz4=");
+    }
 
-        .row {
-          display: flex;
-          flex-direction: row !important;
-        }
+    .row {
+      display: flex;
+      flex-direction: row !important;
+    }
 
-        hr {
-          border: 0;
-          border-bottom: 1px solid #d1d1d1;
-          width: 100%;
-        }
+    hr {
+      border: 0;
+      border-bottom: 1px solid #d1d1d1;
+      width: 100%;
+    }
 
-        #requiredUserGroupsContainer {
-          max-height: 200px;
-          overflow: auto;
-        }
+    #requiredUserGroupsContainer {
+      max-height: 200px;
+      overflow: auto;
+    }
 
-        .input-description {
-          font-style: italic;
-          font-size: 14px;
-        }
+    .input-description {
+      font-style: italic;
+      font-size: 14px;
+    }
 
-        .title {
-          font-weight: bold;
-        }
+    .title {
+      font-weight: bold;
+    }
 
-        .scopes-container {
-          border: 1px solid #9691e2;
-          border-radius: 5px;
-          margin-top: 4px;
-          min-height: 50px;
-        }
+    .scopes-container {
+      border: 1px solid #9691e2;
+      border-radius: 5px;
+      margin-top: 4px;
+      min-height: 50px;
+    }
 
-        .scopes-container button {
-          width: 21px;
-          margin: -11px;
-          padding: 12px;
-          margin-left: 5px;
-          background: #ff3b4d;
-          line-height: 2px;
-        }
+    .scopes-container button {
+      width: 21px;
+      margin: -11px;
+      padding: 12px;
+      margin-left: 5px;
+      background: #ff3b4d;
+      line-height: 2px;
+    }
 
-        .scope-box {
-          background: #57aaca;
-          color: white;
-          padding: 5px;
-          margin: 3px;
-          border-radius: 4px;
-          float: left;
-          font-size: 14px;
-          padding-right: 10px;
-        }
+    .scope-box {
+      background: #57aaca;
+      color: white;
+      padding: 5px;
+      margin: 3px;
+      border-radius: 4px;
+      float: left;
+      font-size: 14px;
+      padding-right: 10px;
+    }
+  </style>
+</body>
 
-    </style>
-  </body>
 </html>

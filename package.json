@@ -4,6 +4,7 @@
   "description": "A SASjs App for generating the Viya Client and Token",
   "main": "index.js",
   "scripts": {
+    "prepare": "cpy-t node_modules/@sasjs/adapter/index.js src/sasjs.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -22,7 +23,10 @@
   },
   "homepage": "https://github.com/sasjs/viyatoken#readme",
   "dependencies": {
-    "@sasjs/adapter": "^2.7.0",
-    "@sasjs/core": "^2.34.4"
+    "@sasjs/adapter": "^2.11.2",
+    "@sasjs/core": "^2.45.2"
+  },
+  "devDependencies": {
+    "cpy-t": "^1.1.5"
   }
 }
