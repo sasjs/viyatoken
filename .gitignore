@@ -1,4 +1,6 @@
 node_modules/
 sasjsbuild/
+sasjsresults/
 .env
 .sasjsrc
+
